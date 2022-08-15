@@ -2,7 +2,7 @@ window.addEventListener("load", function () {
   let canvas = document.querySelector("#canvas1");
   let ctx = canvas.getContext("2d");
   canvas.width = 1300;
-  canvas.height = 700;
+  canvas.height = 900;
   let gameSpeed =3;
   let enemies = [];
   let score = 0;
@@ -85,15 +85,15 @@ window.addEventListener("load", function () {
       this.weight = 1;
     }
     draw(context) {
-        context.strokeStyle = "white";
+        context.strokeStyle = "transparent";
         context.strokeRect(this.x + 90, this.y + 170, this.width - 100, this.height-195);
         context.beginPath();
         context.arc(this.x + this.width/1.5, this.y + this.height/1.4, this.width/4 + 1, 0, Math.PI * 2)
         context.stroke();
-        context.strokeStyle = "blue";
-        context.beginPath();
-        context.arc(this.x + 60, this.y, this.width/2, 0, Math.PI * 2)
-        context.stroke();
+        // context.strokeStyle = "blue";
+        // context.beginPath();
+        // context.arc(this.x + 60, this.y, this.width/2, 0, Math.PI * 2)
+        // context.stroke();
         context.drawImage(
         this.image,
         this.frameX * this.width,
@@ -131,7 +131,7 @@ window.addEventListener("load", function () {
         this.speed = 5;
       } else if (input.keys.indexOf("ArrowLeft") > -1 && input.keys.indexOf("ArrowUp") > -1 && this.onGround()) {
         this.vy -= 33
-        gameSpeed = 1
+        gameSpeed = 2
         this.speed = -1;
       } else if (input.keys.indexOf("ArrowRight") > -1 ) {
         gameSpeed = 4
@@ -142,6 +142,7 @@ window.addEventListener("load", function () {
       } else if (input.keys.indexOf("ArrowUp") > -1 && this.onGround()) {
         this.vy -= 33
       } else {
+        gameSpeed = 3
         this.speed = 0;
       }
 
@@ -184,7 +185,7 @@ window.addEventListener("load", function () {
       this.x = 0;
       this.y = 0;
       this.width = 1300;
-      this.height = 700;
+      this.height = 900;
       this.image = image;
       this.speedModifier = speedModifier;
       this.speed = gameSpeed * this.speedModifier;
@@ -228,15 +229,15 @@ window.addEventListener("load", function () {
         this.markedForDeletion = false 
       }
       draw(context){
-        context.strokeStyle = "white";
+        context.strokeStyle = "transparent";
         context.strokeRect(this.x + 60, this.y, this.width - 120, this.height);
         context.beginPath();
         context.arc(this.x + this.width/2, this.y + this.height/2, this.width/3.4, 0, Math.PI * 2)
         context.stroke();
-        context.strokeStyle = "blue";
-        context.beginPath();
-        context.arc(this.x + 60, this.y, this.width/2, 0, Math.PI * 2)
-        context.stroke();
+        // context.strokeStyle = "blue";
+        // context.beginPath();
+        // context.arc(this.x + 60, this.y, this.width/2, 0, Math.PI * 2)
+        // context.stroke();
         context.drawImage(this.image, this.frameX * this.width, 0, this.width, this.height, this.x, this.y, this.width, this.height - 30)
       }
       update(deltaTime){
