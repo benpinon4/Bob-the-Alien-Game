@@ -2,14 +2,18 @@ window.addEventListener("load", function () {
   let canvas = document.querySelector("#canvas1");
   let ctx = canvas.getContext("2d");
   canvas.width = 1300;
-  canvas.height = 920;
+  canvas.height = 700;
   let gameSpeed =3;
   let enemies = [];
   let score = 0;
   let gameOver = false
+  let start = document.querySelector("#start")
 
 
 
+  start.addEventListener('click', () => {
+    console.log("clicked")
+  })
   let backgroundLayer1 = new Image();
   backgroundLayer1.src = "-6.png";
   let backgroundLayer2 = new Image();
@@ -24,8 +28,6 @@ window.addEventListener("load", function () {
   backgroundLayer6.src = "-1.png";
   let backgroundLayer7 = new Image();
   backgroundLayer7.src = "0.png";
-//   let backgroundLayer8 = new Image();
-//   backgroundLayer8.src = "Section 1_desert1-1.png";
 
 
 
@@ -101,7 +103,7 @@ window.addEventListener("load", function () {
         this.x,
         this.y,
         this.width,
-        this.height
+        this.height - 30
       );
     }
     update(input, deltaTime, enemies) {
@@ -123,18 +125,23 @@ window.addEventListener("load", function () {
         this.frameTimer += deltaTime
       }
       //Controls
-      if (input.keys.indexOf("ArrowRight") > -1 ) {
-        gameSpeed = 3
+      if(input.keys.indexOf("ArrowRight") > -1 && input.keys.indexOf("ArrowUp") > -1 && this.onGround()) {
+        this.vy -= 33
+        gameSpeed = 4
+        this.speed = 5;
+      } else if (input.keys.indexOf("ArrowLeft") > -1 && input.keys.indexOf("ArrowUp") > -1 && this.onGround()) {
+        this.vy -= 33
+        gameSpeed = 1
+        this.speed = -1;
+      } else if (input.keys.indexOf("ArrowRight") > -1 ) {
+        gameSpeed = 4
         this.speed = 5;
       } else if (input.keys.indexOf("ArrowLeft") > -1) {
-
         gameSpeed = 1
-        this.speed = -5;
+        this.speed = -1;
       } else if (input.keys.indexOf("ArrowUp") > -1 && this.onGround()) {
-        
-        this.vy -= 30;
+        this.vy -= 33
       } else {
-
         this.speed = 0;
       }
 
@@ -144,21 +151,24 @@ window.addEventListener("load", function () {
         this.x = 0;
       } else if (this.x > this.gameWidth - this.width) {
         this.x = this.gameWidth - this.width;
-      }
+
+      } 
       //Vertical Movement
-      this.y += this.vy;
-      
-      if (this.onGround() === false) {
+        this.y += this.vy; //Jump
+      if (this.onGround() === false) { //in air condition
         this.vy += this.weight;
         this.frameY = 2;
         this.maxFrame = 0;
-      } else {
-        this.vy = 0;
+      } else if (this.onGround() === true && gameSpeed === 4) {//on ground and right arrow pressed condition
+        // this.vy = 0;
+        this.frameY = 3;
+        this.maxFrame = 7;
+      } else if (this.onGround() === true) {
+        // this.vy = 0;
         this.frameY = 1;
         this.maxFrame = 5;
       }
-
-      
+   
       if (this.y > this.gameHeight - this.height) {
         this.y = this.gameHeight - this.height;
       }
@@ -168,12 +178,13 @@ window.addEventListener("load", function () {
     }
   }
 
+  //Background
   class Layer {
     constructor(image, speedModifier) {
       this.x = 0;
       this.y = 0;
       this.width = 1300;
-      this.height = 920;
+      this.height = 700;
       this.image = image;
       this.speedModifier = speedModifier;
       this.speed = gameSpeed * this.speedModifier;
@@ -191,7 +202,7 @@ window.addEventListener("load", function () {
       ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
       ctx.drawImage(
         this.image,
-        this.x + this.width,
+        this.x + this.width - .5,
         this.y,
         this.width,
         this.height
@@ -213,7 +224,7 @@ window.addEventListener("load", function () {
         this.fps = 20;
         this.frameTimer = 0;
         this.frameInterval = 1000/this.fps;
-        this.speed = 1 + (Math.random()) * 5;
+        this.speed = 1 + (Math.random()) * 4;
         this.markedForDeletion = false 
       }
       draw(context){
@@ -226,7 +237,7 @@ window.addEventListener("load", function () {
         context.beginPath();
         context.arc(this.x + 60, this.y, this.width/2, 0, Math.PI * 2)
         context.stroke();
-        context.drawImage(this.image, this.frameX * this.width, 0, this.width, this.height, this.x, this.y, this.width, this.height)
+        context.drawImage(this.image, this.frameX * this.width, 0, this.width, this.height, this.x, this.y, this.width, this.height - 30)
       }
       update(deltaTime){
         if(this.frameTimer > this.frameInterval){
@@ -289,8 +300,7 @@ window.addEventListener("load", function () {
   let layer5 = new Layer(backgroundLayer5, 0.6);
   let layer6 = new Layer(backgroundLayer6, 0.8);
   let layer7 = new Layer(backgroundLayer7, 1);
-//   let layer8 = new Layer(backgroundLayer8, 1);
-//  let enemy1 = new Enemy(canvas.width, canvas.height)
+
   gameObjects = [
     layer1,
     layer2,
@@ -299,7 +309,6 @@ window.addEventListener("load", function () {
     layer5,
     layer6,
     layer7,
-    // layer8,
   ];
 
   let lastTime = 0;
@@ -308,6 +317,7 @@ window.addEventListener("load", function () {
   let randomEnemyInterval = Math.random() * 10 //Have not seen this syntax
 
   function animate(timeStamp) {  //animation loop
+    // start.drawImage(start)
     const deltaTime = timeStamp - lastTime;
     lastTime = timeStamp //setting to last timestamp
     // console.log(deltaTime)
