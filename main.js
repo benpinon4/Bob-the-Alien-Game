@@ -1,19 +1,28 @@
 window.addEventListener("load", function () {
   let canvas = document.querySelector("#canvas1");
+  let backGround = document.querySelector("#fullBackground")
+  let bob = document.querySelector("#playerImage")
+  let gameOverImage = document.querySelector("#gameOver")
+  let arrowKeyImage = document.querySelector('#arrowKeys')
+  let scoreImage = document.querySelector('#score')
+  let instructMessage = document.querySelector('#instructMessage')
   let ctx = canvas.getContext("2d");
-  canvas.width = 1300;
-  canvas.height = 900;
-  let gameSpeed =3;
+
+  canvas.width = 1100;
+  canvas.height = 700;
+  let gameSpeed = 3;
   let enemies = [];
   let score = 0;
-  let gameOver = false
-  let start = document.querySelector("#start")
+  let gameOver = false;
+  let start = document.querySelector("#startImage")
 
 
 
-  start.addEventListener('click', () => {
-    console.log("clicked")
-  })
+
+
+
+
+
   let backgroundLayer1 = new Image();
   backgroundLayer1.src = "-6.png";
   let backgroundLayer2 = new Image();
@@ -126,11 +135,11 @@ window.addEventListener("load", function () {
       }
       //Controls
       if(input.keys.indexOf("ArrowRight") > -1 && input.keys.indexOf("ArrowUp") > -1 && this.onGround()) {
-        this.vy -= 33
+        this.vy -= 27
         gameSpeed = 4
         this.speed = 5;
       } else if (input.keys.indexOf("ArrowLeft") > -1 && input.keys.indexOf("ArrowUp") > -1 && this.onGround()) {
-        this.vy -= 33
+        this.vy -= 27
         gameSpeed = 2
         this.speed = -1;
       } else if (input.keys.indexOf("ArrowRight") > -1 ) {
@@ -140,7 +149,7 @@ window.addEventListener("load", function () {
         gameSpeed = 1
         this.speed = -1;
       } else if (input.keys.indexOf("ArrowUp") > -1 && this.onGround()) {
-        this.vy -= 33
+        this.vy -= 27
       } else {
         gameSpeed = 3
         this.speed = 0;
@@ -184,8 +193,8 @@ window.addEventListener("load", function () {
     constructor(image, speedModifier) {
       this.x = 0;
       this.y = 0;
-      this.width = 1300;
-      this.height = 900;
+      this.width = 1100;
+      this.height = 700;
       this.image = image;
       this.speedModifier = speedModifier;
       this.speed = gameSpeed * this.speedModifier;
@@ -225,7 +234,7 @@ window.addEventListener("load", function () {
         this.fps = 20;
         this.frameTimer = 0;
         this.frameInterval = 1000/this.fps;
-        this.speed = 1 + (Math.random()) * 4;
+        this.speed = .5 + (Math.random()) * 5;
         this.markedForDeletion = false 
       }
       draw(context){
@@ -253,7 +262,7 @@ window.addEventListener("load", function () {
         if (this.x < 0 - this.width) { 
         this.markedForDeletion = true
         score++;
-        } 
+        }
 
   }}
       
@@ -274,19 +283,20 @@ window.addEventListener("load", function () {
   }
 
   function displayStatusText(context) {
-      context.font = '40px Helvetica'  
-      context.fillStyle = 'black';
-      context.fillText('Score: ' + score, 20, 50)
-      context.fillStyle = 'white';
-      context.fillText('Score: ' + score, 22, 52)
+      context.drawImage(scoreImage,0,20,196,76)
+      context.font = '40px OCR A Std, monospace';  
+      context.fillStyle = 'lightgrey bolder';
+      context.fillText(score, 200, 65)
+      context.drawImage(instructMessage,canvas.width/4,0,587,39)
+      // context.fillStyle = 'darkgrey bolder';
+      // context.fillText(score, 82, 52)
+      context.drawImage(arrowKeyImage,canvas.width - 200,0,200,200)
       if(gameOver === true){
-        context.font = '50px Helvetica'  
-        context.textAlign = 'center';
-        context.fillStyle = 'black';
-        context.fillText('GAME OVER, try again!', canvas.width/2, canvas.height/1.5);
-        context.textAlign = 'center';
-        context.fillStyle = 'white';
-        context.fillText('GAME OVER, try again!', canvas.width/2, canvas.height/1.5 + 2);
+        context.drawImage(gameOverImage,0,0,canvas.width,canvas.height)
+       
+        canvas.addEventListener("click", () => {
+          location.reload(true);
+        })
 
       }
   }
@@ -317,7 +327,22 @@ window.addEventListener("load", function () {
   let enemyInterval = 2000;
   let randomEnemyInterval = Math.random() * 10 //Have not seen this syntax
 
-  function animate(timeStamp) {  //animation loop
+  
+  ctx.fillStyle = 'Black'
+  ctx.font = '100px virgo_01regular'
+  ctx.textAlign = 'center'
+  ctx.drawImage(backGround, 0, 0, canvas.width, canvas.height)
+  ctx.drawImage(start,0, 0, canvas.width, canvas.height)
+  // ctx.fillText("Click Here" , canvas.width/2, canvas.height/2.7)
+  // ctx.fillText("To Start Game!" , canvas.width/2, canvas.height/2)
+  // ctx.fillStyle = 'White'
+  // ctx.fillText("Click Here" , canvas.width/2 + 2, (canvas.height/2.7) + 2)
+  // ctx.fillText("To Start Game!" , canvas.width/2 + 2, (canvas.height/2) + 2)
+  ctx.drawImage (bob,-30,0,240,310, canvas.width/3, canvas.height/1.7, 240, 310)
+  let boo1 = false
+  canvas.addEventListener('click', () => {
+   if (boo1 === false) {
+   function animate(timeStamp) {  //animation loop
     // start.drawImage(start)
     const deltaTime = timeStamp - lastTime;
     lastTime = timeStamp //setting to last timestamp
@@ -333,6 +358,12 @@ window.addEventListener("load", function () {
     displayStatusText(ctx)  
     if(gameOver === false)
     {requestAnimationFrame(animate);}
+
   }
+  boo1 = true
+}
   animate(0);
+  // canvas.removeEventListener('click',  )
 });
+
+})
