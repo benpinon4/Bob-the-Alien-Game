@@ -7,6 +7,9 @@ window.addEventListener("load", function () {
   let scoreImage = document.querySelector('#score')
   let instructMessage = document.querySelector('#instructMessage')
   let ctx = canvas.getContext("2d");
+  let audio = document.querySelector("audio")
+
+  audio.volume = .03;
 
   canvas.width = 1100;
   canvas.height = 700;
@@ -15,12 +18,6 @@ window.addEventListener("load", function () {
   let score = 0;
   let gameOver = false;
   let start = document.querySelector("#startImage")
-
-
-
-
-
-
 
 
   let backgroundLayer1 = new Image();

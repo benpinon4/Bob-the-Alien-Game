@@ -1,44 +1,13 @@
-# Final Project
+# Bob the Alien
 
-In this project, you'll build a web application that does anything you want! 
+Bob the Alien is a 2D side-scrolling jumper game created within the canvas HTML element. In this game Bob must traverse the treacherous city streets of the Alien planet (he/she) landed on. An angry mob of robots has been dispatched to capture him. Bob must jump over as many robots as possible. 
 
-It must meet the project requirements below, but beyond that, feel free to use your creativity to decide on what your app will do.
+## About Me
 
-## Requirements
+My name is Ben and I am a new developer.
 
-* **Your app has at least three distinct "features"**
-  * If you are building a travel planning application, one feature could be allowing users to create a new trip
-* Your project contains a `README.md` file that explains what your project is and how to use it
-* Your project is hosted on GitHub pages
-* Your code is clean
-  * Proper indentation
-  * No unnecessary repetition
-  * Variables as camelCase
+## Features
 
-## Project ideas
+Bob the Alien features a main character Alien Bob and a fleet of emeny robots who are generated at random intervals and randoms sidescrolling speeds. Bob is controlled by the right, left, and up arrow keys.
 
-* Travel planner
-* Budget manager
-* Resume builder
-* Shift scheduling app
-* Chat bot
-* Music making app
-* Games
-  * PacMan
-  * Chess
-* Do something with an external API: https://github.com/public-apis/public-apis
-  * Slack / discord bot
-  * Recreate Reddit
-  * Pokedex
-
-And so many more possibilities!
-
-## Recommendations
-
-* Start out by creating your project's foundation in HTML.
-* Frequently make commmits in git to save your progress.
-* Build one piece of Javascript functionality at a time, testing each change you make with `console.log`. 
-* Keep your code meticulously organized as you go. 
-* Use proper indentation, whitespace, and comments. 
-* Try to write a function for each separate piece of functionality that exists in your code. This will make your code "modular" and easier to build off of.
-* If you find yourself repeating code, think about how you could use either a loop or a new function to eliminate the repitition. DRY - Don't Repeat Yourself!
+## Future Development
