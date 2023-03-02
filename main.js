@@ -13,7 +13,7 @@ window.addEventListener("load", function () {
 
   canvas.width = 1100;
   canvas.height = 700;
-  let gameSpeed = 3;
+  let gameSpeed = 6;
   let enemies = [];
   let score = 0;
   let gameOver = false;
