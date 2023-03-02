@@ -1,5 +1,6 @@
 body {
     background-color: black;
+
 }
 #canvas1 {
     background: rgb(73, 73, 77);
@@ -12,6 +13,10 @@ body {
 }
 #playerImage, #backgroundImage, #enemy1, #start, #reStart, #fullBackground, #startImage, #gameOver, #arrowKeys, #score, #instructMessage {
     display: none;
+}
+
+#header {
+    display: contents;
 }
 
 h1 {
