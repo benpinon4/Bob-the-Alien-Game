@@ -1,37 +1,137 @@
+:root {
+    --alien-primary: #00ff00;
+    --alien-secondary: #00ccff;
+    --alien-dark: #0a0a0a;
+    --alien-darker: #000000;
+    --alien-accent: #ff00ff;
+    --alien-text: #ffffff;
+    --alien-border: #333333;
+}
+
 body {
-    background-color: black;
+    background-color: var(--alien-darker);
     margin: 0;
     padding: 0;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: center;
     min-height: 100vh;
+    max-height: 100vh;
     overflow: hidden;
     box-sizing: border-box;
+    color: var(--alien-text);
+    font-family: 'Courier New', Courier, monospace;
+}
+
+.alien-header {
+    background: linear-gradient(to right, var(--alien-dark), var(--alien-darker));
+    padding: 0.5rem;
+    border-bottom: 2px solid var(--alien-primary);
+    text-align: center;
+    box-shadow: 0 0 20px var(--alien-primary);
+    flex-shrink: 0;
+}
+
+.header-content h1 {
+    color: var(--alien-primary);
+    font-size: clamp(1.2rem, 3vw, 2rem);
+    margin: 0;
+    text-shadow: 0 0 10px var(--alien-primary);
+    letter-spacing: 2px;
+}
+
+.tagline {
+    color: var(--alien-secondary);
+    font-size: clamp(0.7rem, 1.5vw, 1rem);
+    margin: 0.25rem 0 0;
+    text-shadow: 0 0 5px var(--alien-secondary);
+}
+
+main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 0.5rem;
+    min-height: 0;
+    overflow: hidden;
 }
 
 .game-container {
-    width: 100%;
-    max-width: 100vw;
+    width: 75%;
+    height: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 0 1rem;
+    padding: 0 0.5rem;
     box-sizing: border-box;
     overflow: hidden;
+    margin: 0 auto;
 }
 
 #canvas1 {
-    background: rgb(73, 73, 77);
+    background: var(--alien-dark);
     position: relative;
     max-width: 100%;
-    max-height: 90vh;
+    max-height: 70vh;
     width: 100%;
-    border: 5px solid white;
-    font-family: 'Courier New', Courier, monospace;
+    height: 100%;
+    border: 3px solid var(--alien-primary);
+    box-shadow: 0 0 20px var(--alien-primary);
     aspect-ratio: 16/9;
     box-sizing: border-box;
+    touch-action: none;
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+}
+
+.alien-footer {
+    background: linear-gradient(to right, var(--alien-darker), var(--alien-dark));
+    padding: 0.5rem;
+    border-top: 2px solid var(--alien-secondary);
+    text-align: center;
+    box-shadow: 0 0 20px var(--alien-secondary);
+    flex-shrink: 0;
+}
+
+.footer-content {
+    color: var(--alien-text);
+    font-size: clamp(0.7rem, 1.5vw, 0.9rem);
+}
+
+.footer-content p {
+    margin: 0.25rem 0;
+}
+
+.footer-content p:first-child {
+    color: var(--alien-primary);
+    text-shadow: 0 0 5px var(--alien-primary);
+}
+
+.footer-content p:last-child {
+    color: var(--alien-secondary);
+    text-shadow: 0 0 5px var(--alien-secondary);
+}
+
+#reStart {
+    background: var(--alien-dark);
+    color: var(--alien-primary);
+    border: 2px solid var(--alien-primary);
+    padding: 0.5rem 1rem;
+    font-size: clamp(0.7rem, 1.5vw, 1rem);
+    cursor: pointer;
+    margin-top: 0.5rem;
+    transition: all 0.3s ease;
+    text-shadow: 0 0 5px var(--alien-primary);
+}
+
+#reStart:hover {
+    background: var(--alien-primary);
+    color: var(--alien-dark);
+    box-shadow: 0 0 15px var(--alien-primary);
 }
 
 #playerImage, #backgroundImage, #enemy1, #start, #reStart, #fullBackground, #startImage, #gameOver, #arrowKeys, #score, #instructMessage {
@@ -50,34 +150,26 @@ h1 {
     color: white;
 }
 
-#reStart {
-    margin-top: 1rem;
-    padding: 0.5rem 1rem;
-    font-size: clamp(0.8rem, 2vw, 1.2rem);
-    cursor: pointer;
-}
-
 @media (max-width: 1100px) {
     .game-container {
-        padding: 0 0.5rem;
-        width: 95vw;
+        width: 75%;
+        padding: 0 0.25rem;
     }
     
     #canvas1 {
-        width: 95%;
-        max-width: 95vw;
+        max-height: 65vh;
     }
 }
 
 @media (max-width: 768px) {
     .game-container {
-        padding: 0 0.5rem;
-        width: 98vw;
+        width: 90%;
+        padding: 0 0.25rem;
     }
     
     #canvas1 {
-        max-height: 80vh;
-        width: 98%;
+        max-height: 60vh;
+        cursor: pointer;
     }
     
     #header {
@@ -87,7 +179,15 @@ h1 {
 
 @media (max-height: 600px) {
     #canvas1 {
-        max-height: 70vh;
+        max-height: 55vh;
+    }
+    
+    .alien-header {
+        padding: 0.25rem;
+    }
+    
+    .alien-footer {
+        padding: 0.25rem;
     }
 }
 

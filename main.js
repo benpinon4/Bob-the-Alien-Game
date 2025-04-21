@@ -38,11 +38,15 @@ window.addEventListener("load", function () {
 
 
   class InputHandler {
-    ///Key Inputs
     constructor() {
       this.keys = [];
-      window.addEventListener("keydown", (event) => {
+      this.touchStartX = 0;
+      this.touchStartY = 0;
+      this.lastTap = 0;
+      this.tapTimeout = null;
 
+      // Keyboard event listeners
+      window.addEventListener("keydown", (event) => {
         if (
           (event.key === "ArrowDown" ||
             event.key === "ArrowUp" ||
@@ -52,11 +56,9 @@ window.addEventListener("load", function () {
         ) {
           this.keys.push(event.key);
         }
-
-        console.log(event.key, this.keys);
       });
-      window.addEventListener("keyup", (event) => {
 
+      window.addEventListener("keyup", (event) => {
         if (
           event.key === "ArrowDown" ||
           event.key === "ArrowUp" ||
@@ -65,8 +67,61 @@ window.addEventListener("load", function () {
         ) {
           this.keys.splice(this.keys.indexOf(event.key), 1);
         }
+      });
 
-        console.log(event.key, this.keys);
+      // Touch event listeners
+      canvas.addEventListener("touchstart", (event) => {
+        event.preventDefault();
+        this.touchStartX = event.touches[0].clientX;
+        this.touchStartY = event.touches[0].clientY;
+        
+        // Handle double tap for jump
+        const currentTime = new Date().getTime();
+        const tapLength = currentTime - this.lastTap;
+        
+        if (tapLength < 300 && tapLength > 0) {
+          // Double tap detected - simulate up arrow
+          if (this.keys.indexOf("ArrowUp") === -1) {
+            this.keys.push("ArrowUp");
+            setTimeout(() => {
+              this.keys.splice(this.keys.indexOf("ArrowUp"), 1);
+            }, 200);
+          }
+          clearTimeout(this.tapTimeout);
+        } else {
+          this.tapTimeout = setTimeout(() => {
+            this.lastTap = 0;
+          }, 300);
+        }
+        this.lastTap = currentTime;
+      });
+
+      canvas.addEventListener("touchmove", (event) => {
+        event.preventDefault();
+        const touchX = event.touches[0].clientX;
+        const touchY = event.touches[0].clientY;
+        
+        // Calculate touch movement direction
+        const deltaX = touchX - this.touchStartX;
+        
+        // Remove existing direction keys
+        this.keys = this.keys.filter(key => key !== "ArrowLeft" && key !== "ArrowRight");
+        
+        // Add new direction based on movement
+        if (deltaX > 50) {
+          this.keys.push("ArrowRight");
+        } else if (deltaX < -50) {
+          this.keys.push("ArrowLeft");
+        }
+        
+        this.touchStartX = touchX;
+        this.touchStartY = touchY;
+      });
+
+      canvas.addEventListener("touchend", (event) => {
+        event.preventDefault();
+        // Remove direction keys when touch ends
+        this.keys = this.keys.filter(key => key !== "ArrowLeft" && key !== "ArrowRight");
       });
     }
   }
@@ -267,7 +322,6 @@ window.addEventListener("load", function () {
     if(enemyTimer > enemyInterval + randomEnemyInterval){
       enemies.push(new Enemy(canvas.width, canvas.height))
       randomEnemyInterval = Math.random() * 1000 + 500
-      console.log(enemyTimer)   
       enemyTimer = 0; 
     } else {
       enemyTimer += deltaTime;
